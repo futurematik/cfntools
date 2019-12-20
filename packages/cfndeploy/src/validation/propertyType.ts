@@ -9,6 +9,7 @@ import {
   dictionary,
   properties,
   any,
+  optional,
 } from '@fmtk/validation';
 import { primitive } from './primitive';
 
@@ -22,6 +23,11 @@ export function propertyType(
   type: string | undefined,
   resolve: PropertyTypeResolver,
 ): ValueValidator<unknown> {
+  if (!spec.Required) {
+    return optional(
+      propertyType({ ...spec, Required: true }, namespace, type, resolve),
+    );
+  }
   if (spec.PrimitiveType) {
     return primitive(spec.PrimitiveType);
   } else if (spec.Type) {
@@ -45,7 +51,6 @@ export function propertyType(
   } else if ('Properties' in spec && spec.Properties) {
     return subProperties(spec.Properties, namespace, resolve);
   } else {
-    console.warn(`no validation possible for type ${type} (${namespace})`);
     return any();
   }
 }

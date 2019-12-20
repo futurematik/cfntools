@@ -1,9 +1,23 @@
 import { PrimitiveType } from '@fmtk/cfnspec';
-import { bool, real, integer, text, ValueValidator } from '@fmtk/validation';
+import {
+  bool,
+  real,
+  integer,
+  text,
+  ValueValidator,
+  or,
+} from '@fmtk/validation';
 import { arbitraryObject } from './arbitraryObject';
 import { isoDateString } from './isoDateString';
+import { intrinsic } from '../Intrinsic';
 
-export function primitive(type: PrimitiveType): ValueValidator<unknown> {
+export function primitive(
+  type: PrimitiveType,
+  allowIntrinsic = true,
+): ValueValidator<unknown> {
+  if (allowIntrinsic) {
+    return or(primitive(type, false), intrinsic());
+  }
   switch (type) {
     case PrimitiveType.Boolean:
       return bool();

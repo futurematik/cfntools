@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ValueValidator, ValidationResult } from '@fmtk/validation';
-import { stringEnum } from '@fmtk/cfnspec/lib/util/StringEnum';
+import { stringEnum } from './util/StringEnum';
 
 export const IntrinsicTypes = [
   'Fn::Base64',
@@ -85,6 +85,6 @@ export function isIntrinsic(value: unknown): value is Intrinsic {
   if (others.length) {
     return false;
   }
-
-  return IntrinsicTypes.indexOf(prop) >= 0;
+  const match = IntrinsicTypes.indexOf(prop) >= 0;
+  return match;
 }
