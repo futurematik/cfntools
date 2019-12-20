@@ -1,0 +1,30 @@
+{
+  "name": "@fmtk/cfnspec",
+  "version": "0.0.0",
+  "main": "lib/bundle.js",
+  "module": "lib/bundle.esm.js",
+  "types": "lib/index.d.ts",
+  "author": "Gordon Leigh <gordon.leigh@futurematik.co.uk>",
+  "repository": "https://github.com/futurematik/custom-resources",
+  "license": "MIT",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src/",
+    "lib/",
+    "dist/"
+  ],
+  "scripts": {
+    "build": "yarn clean && yarn lint && yarn generate && yarn compile",
+    "compile": "rollup -c",
+    "clean": "rm -rf lib/ dist/",
+    "generate": "node -r ts-node/register src/tools/generateSpec.ts src/",
+    "lint": "eslint src/ --ext=ts,tsx",
+    "watch": "yarn run compile -w"
+  },
+  "dependencies": {
+    "@fmtk/validation": "^3.5.2"
+  }
+}
